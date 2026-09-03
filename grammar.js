@@ -5,7 +5,7 @@
 // Informatics and Mathematics, Keio University, Beihang).
 // https://www.w3.org/copyright/software-license-2023/
 
-module.exports = grammar({
+export default grammar({
     name: 'wesl',
 
     externals: $ => [
