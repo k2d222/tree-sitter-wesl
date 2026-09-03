@@ -1,5 +1,13 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.6
+
+import Foundation
 import PackageDescription
+
+let dir = Context.packageDirectory
+var sources = ["src/parser.c"]
+if FileManager.default.fileExists(atPath: "\(dir)/src/scanner.c") {
+    sources.append("src/scanner.c")
+}
 
 let package = Package(
     name: "TreeSitterWesl",
@@ -7,40 +15,14 @@ let package = Package(
         .library(name: "TreeSitterWesl", targets: ["TreeSitterWesl"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/ChimeHQ/SwiftTreeSitter", from: "0.8.0"),
+        .package(url: "https://github.com/tree-sitter/swift-tree-sitter", from: "0.10.0"),
     ],
     targets: [
         .target(
             name: "TreeSitterWesl",
             dependencies: [],
             path: ".",
-            exclude: [
-                "Cargo.toml",
-                "Makefile",
-                "binding.gyp",
-                "bindings/c",
-                "bindings/go",
-                "bindings/node",
-                "bindings/python",
-                "bindings/rust",
-                "prebuilds",
-                "grammar.js",
-                "package.json",
-                "package-lock.json",
-                "pyproject.toml",
-                "setup.py",
-                "test",
-                "examples",
-                ".editorconfig",
-                ".github",
-                ".gitignore",
-                ".gitattributes",
-                ".gitmodules",
-            ],
-            sources: [
-                "src/parser.c",
-                // NOTE: if your language has an external scanner, add it here.
-            ],
+            sources: sources,
             resources: [
                 .copy("queries")
             ],
@@ -50,7 +32,7 @@ let package = Package(
         .testTarget(
             name: "TreeSitterWeslTests",
             dependencies: [
-                "SwiftTreeSitter",
+                .product(name: "SwiftTreeSitter", package: "swift-tree-sitter"),
                 "TreeSitterWesl",
             ],
             path: "bindings/swift/TreeSitterWeslTests"
