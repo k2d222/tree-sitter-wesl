@@ -1,0 +1,245 @@
+; comments
+
+(line_comment) @comment.line
+(block_comment) @comment.block
+
+; variables, types, constants
+
+(identifier) @variable
+
+(param
+  name: (_) @variable.parameter)
+
+(struct_decl
+  name: (_) @type)
+
+(struct_member
+  name: (_) @property)
+
+(named_component_expression
+  component: (_) @property)
+
+((identifier) @type
+  (#match? @type "^[A-Z]"))
+
+((identifier) @constant
+  (#match? @constant "^[A-Z0-9_]+$"))
+
+(type_specifier
+  (identifier) @type)
+
+; imports (WESL extension)
+
+(import_item
+  (identifier) @module)
+
+(import_path
+  (identifier) @module)
+
+(ident_path
+  (identifier) @module)
+
+(import_item
+  (identifier) @type
+  (#match? @type "^[A-Z]"))
+
+(import_item
+  (identifier) @constant
+  (#match? @constant "^[A-Z0-9_]+$"))
+
+; functions
+
+(function_decl
+  (function_header
+    (identifier) @function))
+
+(call_expression
+  (identifier) @function.call)
+
+(func_call_statement
+  (identifier) @function.call)
+
+; templates
+
+(type_specifier
+  (template_list
+    (identifier) @type))
+
+(template_list
+  (template_list
+    (identifier) @type))
+
+(variable_decl
+  (template_list
+    (identifier) @type.qualifier))
+
+; attributes
+
+(attribute
+  (identifier) @attribute)
+
+(attribute
+  (identifier) @attribute
+  (argument_list
+    (identifier) @variable.builtin)
+  (#eq? @attribute "builtin"))
+
+; literals
+
+(bool_literal) @boolean
+(int_literal) @number
+(hex_int_literal) @number
+(float_literal) @number.float
+
+; keywords
+
+[
+  "alias"
+  "virtual"
+] @keyword
+
+[
+  "switch"
+  "case"
+  "default"
+  "break"
+  "continue"
+  "continuing"
+  "discard"
+  "const_assert"
+] @keyword
+
+[
+  "fn"
+] @keyword.function
+
+[
+  "if"
+  "else"
+] @conditional
+
+[
+  "loop"
+  "for"
+  "while"
+] @repeat
+
+[
+  "return"
+] @keyword.return
+
+[
+  "var"
+  "let"
+  "const"
+  "override"
+  "struct"
+] @keyword
+
+[
+  "diagnostic"
+  "enable"
+  "requires"
+] @keyword.directive
+
+[
+  "import"
+  "as"
+] @keyword.import
+
+; expressions
+
+[
+  "-"
+  "!"
+  "~"
+  "*"
+  "&"
+  "^"
+  "|"
+  "/"
+  "%"
+  "+"
+  "&&"
+  "||"
+  (shift_left)
+  (shift_right)
+  (less_than)
+  (greater_than)
+  (less_than_equal)
+  (greater_than_equal)
+  "=="
+  "!="
+  "+="
+  "-="
+  "*="
+  "/="
+  "%="
+  "|="
+  "^="
+  "++"
+  "--"
+  "="
+  "->"
+] @operator
+
+; punctuation
+
+[
+  "("
+  ")"
+  "["
+  "]"
+  "{"
+  "}"
+] @punctuation.bracket
+
+[
+  ","
+  "."
+  ":"
+  "::"
+  ";"
+] @punctuation.delimiter
+
+; preprocessor
+
+[
+  (preproc_directive)
+  "#import"
+] @keyword.directive
+
+; reserved (except "as" and "import")
+; it's debated whether we should highlight them.
+
+; [
+;   "NULL" "Self" "abstract" "active" "alignas"
+;   "alignof" "asm" "asm_fragment" "async" "attribute"
+;   "auto" "await" "become" "cast" "catch"
+;   "class" "co_await" "co_return" "co_yield" "coherent"
+;   "column_major" "common" "compile" "compile_fragment" "concept"
+;   "const_cast" "consteval" "constexpr" "constinit" "crate"
+;   "debugger" "decltype" "delete" "demote" "demote_to_helper"
+;   "do" "dynamic_cast" "enum" "explicit" "export"
+;   "extends" "extern" "external" "fallthrough" "filter"
+;   "final" "finally" "friend" "from" "fxgroup"
+;   "get" "goto" "groupshared" "highp" "impl"
+;   "implements" "inline" "instanceof" "interface"
+;   "layout" "lowp" "macro" "macro_rules" "match"
+;   "mediump" "meta" "mod" "module" "move"
+;   "mut" "mutable" "namespace" "new" "nil"
+;   "noexcept" "noinline" "nointerpolation" "non_coherent" "noncoherent"
+;   "noperspective" "null" "nullptr" "of" "operator"
+;   "package" "packoffset" "partition" "pass" "patch"
+;   "pixelfragment" "precise" "precision" "premerge" "priv"
+;   "protected" "pub" "public" "readonly" "ref"
+;   "regardless" "register" "reinterpret_cast" "require" "resource"
+;   "restrict" "self" "set" "shared" "sizeof"
+;   "smooth" "snorm" "static" "static_assert" "static_cast"
+;   "std" "subroutine" "super" "target" "template"
+;   "this" "thread_local" "throw" "trait" "try"
+;   "type" "typedef" "typeid" "typename" "typeof"
+;   "union" "unless" "unorm" "unsafe" "unsized"
+;   "use" "using" "varying" "virtual" "volatile"
+;   "wgsl" "where" "with" "writeonly" "yield" 
+; ] @keyword
