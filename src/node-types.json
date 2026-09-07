@@ -1190,9 +1190,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "attribute",
+          "named": true
+        },
         {
           "type": "const_assert_statement",
           "named": true
@@ -1216,6 +1220,10 @@
         {
           "type": "type_alias_decl",
           "named": true
+        },
+        {
+          "type": "visibility",
+          "named": true
         }
       ]
     }
@@ -1225,9 +1233,13 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
+        {
+          "type": "attribute",
+          "named": true
+        },
         {
           "type": "diagnostic_directive",
           "named": true
@@ -1610,6 +1622,10 @@
         },
         {
           "type": "import_path",
+          "named": true
+        },
+        {
+          "type": "visibility",
           "named": true
         }
       ]
@@ -2521,10 +2537,6 @@
       "required": false,
       "types": [
         {
-          "type": "attribute",
-          "named": true
-        },
-        {
           "type": "global_decl",
           "named": true
         },
@@ -2797,6 +2809,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "visibility",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "while_statement",
@@ -3121,6 +3138,14 @@
   {
     "type": "preproc_directive",
     "named": true
+  },
+  {
+    "type": "private",
+    "named": false
+  },
+  {
+    "type": "public",
+    "named": false
   },
   {
     "type": "requires",
