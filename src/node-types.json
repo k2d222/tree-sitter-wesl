@@ -630,6 +630,21 @@
     }
   },
   {
+    "type": "compound_global_decl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "global_decl",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "compound_statement",
     "named": true,
     "fields": {},
@@ -1198,6 +1213,10 @@
           "named": true
         },
         {
+          "type": "compound_global_decl",
+          "named": true
+        },
+        {
           "type": "const_assert_statement",
           "named": true
         },
@@ -1563,6 +1582,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "*",
+            "named": false
+          },
           {
             "type": "identifier",
             "named": true

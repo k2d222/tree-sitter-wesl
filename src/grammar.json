@@ -155,8 +155,17 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "identifier"
+              },
+              {
+                "type": "STRING",
+                "value": "*"
+              }
+            ]
           }
         },
         {
@@ -823,8 +832,32 @@
             {
               "type": "SYMBOL",
               "name": "const_assert_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "compound_global_decl"
             }
           ]
+        }
+      ]
+    },
+    "compound_global_decl": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "global_decl"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },

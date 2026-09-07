@@ -48,7 +48,7 @@ export default grammar({
         // import_path: $ => repeat1(seq($.identifier, '::')),
         import: $ => choice(seq($.import_path, $._import_content), $.import_item),
         _import_content: $ => choice($.import_item, $.import_collection),
-        import_item: $ => seq(field('name', $.identifier), optional(seq('as', field('rename', $.identifier)))),
+        import_item: $ => seq(field('name', choice($.identifier, "*")), optional(seq('as', field('rename', $.identifier)))),
         import_collection: $ => seq('{', comma($.import, { trail: true }), '}'),
 
         // literals
@@ -92,7 +92,8 @@ export default grammar({
         attribute: $ => prec.right(seq('@', field('name', $.identifier), field('arguments', optional($._argument_expression_list)))), // precedence: a parenthesis following an attribute is always part of the attribute.
 
         // declarations
-        global_decl: $ => seq(repeat($.attribute), optional($.visibility), choice(';', $.global_variable_decl, $.global_value_decl, $.type_alias_decl, $.struct_decl, $.function_decl, $.const_assert_statement)),
+        global_decl: $ => seq(repeat($.attribute), optional($.visibility), choice(';', $.global_variable_decl, $.global_value_decl, $.type_alias_decl, $.struct_decl, $.function_decl, $.const_assert_statement, $.compound_global_decl)),
+        compound_global_decl: $ => seq("{", repeat($.global_decl), "}"), // WESL extension
 
         // structs
         struct_decl: $ => seq('struct', field('name', $._ident), field('body', $.struct_body)),
